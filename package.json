@@ -1,0 +1,45 @@
+{
+  "name": "tea-picker-api",
+  "version": "0.0.1",
+  "description": "The Tea Round Picker API",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "nodemon -w src --exec \"babel-node src\"",
+    "build": "rimraf dist && npx babel src -D -d dist",
+    "start": "rimraf dist && npx babel src -D -d dist --no-comments && node dist/index.js",
+    "clean": "rimraf dist",
+    "test": "eslint src"
+  },
+  "engines": {
+    "node": "10.13.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MindeVieras/tea-picker-api.git"
+  },
+  "author": "Minde Vieras",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MindeVieras/tea-picker-api/issues"
+  },
+  "homepage": "https://github.com/MindeVieras/tea-picker-api#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.4",
+    "http-status-codes": "^1.3.0",
+    "mongoose": "^5.4.6",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "@babel/node": "^7.0.0",
+    "@babel/preset-env": "^7.1.6",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.9.0",
+    "nodemon": "^1.18.6",
+    "rimraf": "^2.6.2"
+  }
+}
