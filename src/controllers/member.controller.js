@@ -7,11 +7,11 @@ import { jsonResponse } from '../helpers'
  * Get member list.
  * @returns {Member[]}
  */
-export function list(req, res) {
+export function list(req, res, next) {
 
   Member.find({})
     .then(members => jsonResponse.success(res, members))
-    .catch(e => jsonResponse.error(res, e))
+    .catch(e => next(e))
 
 }
 
@@ -21,59 +21,59 @@ export function list(req, res) {
  * @property {string} req.body.email - The email of member.
  * @returns {Member}
  */
-export function create(req, res) {
+export function create(req, res, next) {
   
   const member = new Member(req.body)
   
   member.save()
-    .then(savedMember => jsonResponse.success(res, savedMember))
-    .catch(e => jsonResponse.error(res, e))
+    .then(member => jsonResponse.success(res, member))
+    .catch(e => next(e))
     
 }
 
 /**
  * Get member.
- * @property {string} req.params.id - The id of member.
+ * @param {string} req.params.id - The id of member.
  * @returns {Member}
  */
-export function get(req, res) {
+export function get(req, res, next) {
 
   const { id } = req.params
 
   Member.findById(id)
     .then(member => jsonResponse.success(res, member))
-    .catch(e => jsonResponse.error(res, e))
+    .catch(e => next(e))
 
 }
 
 /**
  * Update member.
- * @property {string} req.params.id - The id of member.
+ * @param {string} req.params.id - The id of member.
  * @property {string} req.body.name - The name of member.
  * @property {string} req.body.email - The email of member.
  * @returns {Member}
  */
-export function update(req, res) {
-
+export function update(req, res, next) {
+  
   const { id } = req.params
 
   Member.findByIdAndUpdate(id, {$set: req.body}, { new: true })
     .then(member => jsonResponse.success(res, member))
-    .catch(e => jsonResponse.error(res, e))
+    .catch(e => next(e))
 
 }
 
 /**
  * Delete member.
- * @property {string} req.params.id - The id of member.
+ * @param {string} req.params.id - The id of member.
  * @returns {Member}
  */
-export function remove(req, res) {
+export function remove(req, res, next) {
   
   const { id } = req.params
 
   Member.findByIdAndRemove(id)
     .then(member => jsonResponse.success(res, member))
-    .catch(e => jsonResponse.error(res, e))
+    .catch(e => next(e))
 
 }

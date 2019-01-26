@@ -11,7 +11,6 @@ const MemberSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true,
     match: [/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/, '{VALUE} is not valid email.']
   },
   createdAt: {
