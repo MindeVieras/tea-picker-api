@@ -23,8 +23,7 @@ export function list(req, res) {
  */
 export function create(req, res) {
   
-  const { name, email } = req.body
-  const member = new Member({ name, email })
+  const member = new Member(req.body)
   
   member.save()
     .then(savedMember => jsonResponse.success(res, savedMember))
@@ -57,9 +56,8 @@ export function get(req, res) {
 export function update(req, res) {
 
   const { id } = req.params
-  const { name, email } = req.body
 
-  Member.findByIdAndUpdate(id, {$set: { name, email }}, { new: true })
+  Member.findByIdAndUpdate(id, {$set: req.body}, { new: true })
     .then(member => jsonResponse.success(res, member))
     .catch(e => jsonResponse.error(res, e))
 
