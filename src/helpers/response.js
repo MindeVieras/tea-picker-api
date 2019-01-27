@@ -1,15 +1,12 @@
 
-import HttpStatus from 'http-status-codes'
+import HttpStatus from 'http-status'
 
 export const jsonResponse = {
   success: jsonResponseSuccess,
   error: jsonResponseError
 }
 
-function jsonResponseSuccess(res, data = null) {
-
-  let status = HttpStatus.OK
-
+function jsonResponseSuccess(res, data, status = HttpStatus.OK) {
   return res.status(status).json({status: 'success', data})
 }
 

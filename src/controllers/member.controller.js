@@ -1,6 +1,7 @@
 
-import Member from '../models/member.model'
+import validator from 'validator'
 
+import Member from '../models/member.model'
 import { jsonResponse } from '../helpers'
 
 /**
@@ -23,9 +24,40 @@ export function list(req, res, next) {
  */
 export function create(req, res, next) {
   
-  const member = new Member(req.body)
+  const { name, email } = req.body
+  let errors
+
+  // validate member name input
+  if (!name || validator.isEmpty(name))
+    errors = { ...errors, name: `Member name is required` }
+
+  // vlaidate email
+  if (email && !validator.isEmail(email))
+    errors = { ...errors, email: `Email must be valid` }
+
+  // return errors if any
+  if (errors) {
+    jsonResponse.error(res, {message: 'Input error', errors})
+  }
+
+  // to be sent to db
+  let memberData = {
+    name,
+    name_lc: name.toLowerCase(),
+    email
+  }
+
+  const memberClass = new Member(memberData)
   
-  member.save()
+  // Check if user with the same name exists - lowercase
+  Member.findOne({name_lc: memberData.name_lc})
+    .then(member => {
+      
+      if (member)
+        throw 'Already taken'
+      
+      return memberClass.save()
+    })
     .then(member => jsonResponse.success(res, member))
     .catch(e => next(e))
     
