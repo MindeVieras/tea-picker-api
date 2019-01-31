@@ -1,13 +1,13 @@
 
-// import 'babel-polyfill'
-import express from 'express'
-import path from 'path'
 import mongoose from 'mongoose'
+import HttpStatus from 'http-status'
+import expressValidation from 'express-validation'
 
 import app from './config/express'
 import routes from './routes/index.route'
-import { jsonResponse } from './helpers'
+import APIError from './helpers/APIError'
 
+const production = process.env.NODE_ENV === 'production';
 const PORT = process.env.PORT || 3000
 const HOST = process.env.HOST || 'localhost'
 
@@ -18,21 +18,56 @@ mongoose.connection.on('error', () => {
   console.error('Could not connect to database')
 })
 
-// Home route
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, './index.html'))
-})
-
-// APIDoc route
-app.use('/apidoc', express.static(path.join(__dirname, '../apidoc')))
-
 // API routes
 app.use('/api', routes)
 
-// Basic Error midleware
-app.use((error, req, res, next) => {
-  // Any request to this server will get here, and will send an HTTP
-  jsonResponse.error(res, error)
+// // simple error handling middleware
+// app.use((err, req, res, next) => {
+
+//   const error = {
+//     status: 'error',
+//     message: err.message,
+//     errors: err
+//   }
+
+//   res.status(HttpStatus.UNPROCESSABLE_ENTITY).send(error)
+// })
+
+// if error is not an instanceOf APIError, convert it.
+app.use((err, req, res, next) => {
+  
+  const status = err.status || 500
+  
+  if (status < 400) status = 500
+  
+  // Set staus code for response
+  res.statusCode = status
+
+  let body = {
+    status: status
+  }
+
+  // show the stacktrace when not in production
+  if (!production)
+    body.stack = err.stack
+
+  // internal server errors
+  if (status >= 500) {
+    console.error(err.stack)
+    body.message = HttpStatus[status]
+    res.send(body)
+    return
+  }
+
+  // client errors
+  body.message = err.message
+  body.errors = err.errors
+
+  if (err.code) body.code = err.code
+  if (err.name) body.name = err.name
+  if (err.type) body.type = err.type
+  
+  res.send(body)
 })
 
 // Start HTTP server

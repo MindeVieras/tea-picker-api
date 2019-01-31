@@ -1,16 +1,13 @@
 
 import HttpStatus from 'http-status'
 
-export const jsonResponse = {
-  success: jsonResponseSuccess,
-  error: jsonResponseError
-}
+export function jsonResponse(res, data, status = HttpStatus.OK) {
 
-function jsonResponseSuccess(res, data, status = HttpStatus.OK) {
-  return res.status(status).json({status: 'success', data})
-}
-
-function jsonResponseError(res, error, code = HttpStatus.INTERNAL_SERVER_ERROR) {
-
-  return res.status(code).json({status: 'error', data: error})
+  const responseData = {
+    status,
+    message: HttpStatus[status],
+    data
+  }
+  
+  return res.status(status).send(responseData)
 }

@@ -1,8 +1,10 @@
 
+import HttpStatus from 'http-status'
 import validator from 'validator'
 
 import Member from '../models/member.model'
 import { jsonResponse } from '../helpers'
+import APIError from '../helpers/APIError'
 
 /**
  * Get member list.
@@ -11,7 +13,8 @@ import { jsonResponse } from '../helpers'
 export function list(req, res, next) {
 
   Member.find({})
-    .then(members => jsonResponse.success(res, members))
+    .sort({ createdAt: -1 }) // sort by newest members
+    .then(members => jsonResponse(res, members))
     .catch(e => next(e))
 
 }
@@ -34,32 +37,34 @@ export function create(req, res, next) {
   // vlaidate email
   if (email && !validator.isEmail(email))
     errors = { ...errors, email: `Email must be valid` }
-
-  // return errors if any
-  if (errors) {
-    jsonResponse.error(res, {message: 'Input error', errors})
-  }
-
-  // to be sent to db
-  let memberData = {
-    name,
-    name_lc: name.toLowerCase(),
-    email
-  }
-
-  const memberClass = new Member(memberData)
   
-  // Check if user with the same name exists - lowercase
-  Member.findOne({name_lc: memberData.name_lc})
-    .then(member => {
-      
-      if (member)
-        throw 'Already taken'
-      
-      return memberClass.save()
-    })
-    .then(member => jsonResponse.success(res, member))
-    .catch(e => next(e))
+  // return errors if any
+  if (errors)
+    throw new APIError(errors)
+
+  else {
+    // to be sent to db
+    let memberData = {
+      name,
+      name_lc: name.toLowerCase(),
+      email
+    }
+
+    const memberClass = new Member(memberData)
+    
+    // Check if user with the same name exists - lowercase
+    Member.findOne({name_lc: memberData.name_lc})
+      .then(member => {
+        
+        if (member) {
+          throw new APIError({ name: 'Member name already taken' })
+        }
+        
+        return memberClass.save()
+      })
+      .then(member => jsonResponse(res, member, HttpStatus.CREATED))
+      .catch(e => next(e))
+  }
     
 }
 
@@ -73,7 +78,7 @@ export function get(req, res, next) {
   const { id } = req.params
 
   Member.findById(id)
-    .then(member => jsonResponse.success(res, member))
+    .then(member => jsonResponse(res, member))
     .catch(e => next(e))
 
 }
