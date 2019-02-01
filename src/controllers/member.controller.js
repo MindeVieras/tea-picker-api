@@ -78,8 +78,18 @@ export function get(req, res, next) {
   const { id } = req.params
 
   Member.findById(id)
-    .then(member => jsonResponse(res, member))
-    .catch(e => next(e))
+    .then(member => {
+      if (!member) {
+        throw new APIError('Member not found', HttpStatus.NOT_FOUND)
+      }
+      else {
+        jsonResponse(res, member)
+      }
+    })
+    .catch(e => {
+      const err = new APIError('Member not found', HttpStatus.NOT_FOUND)
+      return next(err)
+    })
 
 }
 
@@ -95,7 +105,7 @@ export function update(req, res, next) {
   const { id } = req.params
 
   Member.findByIdAndUpdate(id, {$set: req.body}, { new: true })
-    .then(member => jsonResponse.success(res, member))
+    .then(member => jsonResponse(res, member))
     .catch(e => next(e))
 
 }
@@ -110,7 +120,7 @@ export function remove(req, res, next) {
   const { id } = req.params
 
   Member.findByIdAndRemove(id)
-    .then(member => jsonResponse.success(res, member))
+    .then(member => jsonResponse(res, member))
     .catch(e => next(e))
 
 }

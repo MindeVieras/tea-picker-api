@@ -8,7 +8,7 @@
     "build": "rimraf dist && npx babel src -D -d dist",
     "start": "rimraf dist && npx babel src -D -d dist --no-comments && node dist/index.js",
     "clean": "rimraf dist",
-    "test": "eslint src"
+    "test": "mocha --require @babel/register"
   },
   "engines": {
     "node": "10.13.0"
@@ -40,9 +40,14 @@
     "@babel/core": "^7.1.6",
     "@babel/node": "^7.0.0",
     "@babel/preset-env": "^7.1.6",
+    "@babel/register": "^7.0.0",
     "babel-eslint": "^10.0.1",
+    "chai": "^4.2.0",
     "eslint": "^5.9.0",
+    "mocha": "^5.2.0",
     "nodemon": "^1.18.6",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "supertest": "^3.4.2",
+    "supertest-as-promised": "^4.0.2"
   }
 }

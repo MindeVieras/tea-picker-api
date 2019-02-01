@@ -21,19 +21,7 @@ mongoose.connection.on('error', () => {
 // API routes
 app.use('/api', routes)
 
-// // simple error handling middleware
-// app.use((err, req, res, next) => {
-
-//   const error = {
-//     status: 'error',
-//     message: err.message,
-//     errors: err
-//   }
-
-//   res.status(HttpStatus.UNPROCESSABLE_ENTITY).send(error)
-// })
-
-// if error is not an instanceOf APIError, convert it.
+// Error handling middleware
 app.use((err, req, res, next) => {
   
   const status = err.status || 500
@@ -70,9 +58,14 @@ app.use((err, req, res, next) => {
   res.send(body)
 })
 
-// Start HTTP server
-app.listen(PORT, () => {
-  console.log(`Server running at http://${HOST}:${PORT}`)
-})
+// module.parent check is required to support mocha watch
+// src: https://github.com/mochajs/mocha/issues/1912
+if (!module.parent) {
+  // Start HTTP server
+  app.listen(PORT, () => {
+    console.log(`Server running at http://${HOST}:${PORT}`)
+  })
+}
 
-export default app
+
+module.exports = app
