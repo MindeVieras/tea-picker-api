@@ -5,12 +5,13 @@ import mongoose from 'mongoose'
  * Round Schema
  */
 const RoundSchema = new mongoose.Schema({
-  memberId: {
+  maker: {
     type: String,
     required: true
   },
   participants: {
-    type: [String]
+    type: [String],
+    required: true
   },
   createdAt: {
     type: Date,

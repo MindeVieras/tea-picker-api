@@ -1,8 +1,11 @@
 
+import HttpStatus from 'http-status'
+
 import Member from '../models/member.model'
 import Round from '../models/round.model'
 
 import { jsonResponse } from '../helpers'
+import APIError from '../helpers/APIError'
 
 /**
  * Get tea maker.
@@ -13,15 +16,22 @@ export function picker(req, res, next) {
 
   const { participants } = req.body
 
-  jsonResponse(res, participants)
-  // let countParticipants = req.body.participants.length
+  // Validate participants array
+  if (participants && participants.length > 0) {
+    
+    // Pick random tea maker from participans list
+    const randomMaker = participants[Math.floor(Math.random() * participants.length)]
 
-  // // Read all member that are seved on db
-  // Member.find({'name': { $in: req.body.participants}})
-  //   .then(members => {
-  //     let countMembers = members.length
-  //     jsonResponse.success(res, members)
-  //   })
-  //   .catch(e => next(e))
+    // Save round to database
+    const round = new Round({ maker: randomMaker, participants })
+    round.save()
+      .then(round => jsonResponse(res, round))
+      .catch(e => next(e))
+
+  }
+  else {
+    const err = new APIError('No members in the list', HttpStatus.UNPROCESSABLE_ENTITY)
+    return next(err)
+  }
 
 }

@@ -17,22 +17,6 @@ export function list(req, res, next) {
 }
 
 /**
- * Create new round.
- * @property {string} req.body.memberId - The memberId of round.
- * @property {Array} req.body.participants - The participants of round.
- * @returns {Round}
- */
-export function create(req, res, next) {
-  
-  const round = new Round(req.body)
-  
-  round.save()
-    .then(round => jsonResponse.success(res, round))
-    .catch(e => next(e))
-    
-}
-
-/**
  * Get round.
  * @param {string} req.params.id - The id of round.
  * @returns {Round}

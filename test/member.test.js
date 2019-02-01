@@ -1,10 +1,11 @@
 
-const request = require('supertest-as-promised')
-const HttpStatus = require('http-status')
-const chai = require('chai')
-const expect = chai.expect
-const app = require('../src/index')
+import HttpStatus from 'http-status'
+import request from 'supertest-as-promised'
+import chai from 'chai'
 
+import app from '../src/index'
+
+const expect = chai.expect
 chai.config.includeStack = true
 
 describe('## Member APIs', () => {
@@ -55,7 +56,7 @@ describe('## Member APIs', () => {
         .catch(done)
     })
 
-    it('should report error with message - Not found, when member does not exists', (done) => {
+    it('should report error message Member not found if member not found', (done) => {
       request(app)
         .get('/api/members/5c538aad126ee208db68b68a')
         .expect(HttpStatus.NOT_FOUND)
@@ -69,13 +70,13 @@ describe('## Member APIs', () => {
 
   describe('# PUT /api/members/:id', () => {
     it('should update member details', (done) => {
-      member.name = 'KK'
+      member.name = 'TU'
       request(app)
         .put(`/api/members/${member._id}`)
         .send(member)
         .expect(HttpStatus.OK)
         .then((res) => {
-          expect(res.body.data.name).to.equal('KK')
+          expect(res.body.data.name).to.equal('TU')
           expect(res.body.data.email).to.equal(member.email)
           done()
         })
@@ -89,7 +90,7 @@ describe('## Member APIs', () => {
         .delete(`/api/members/${member._id}`)
         .expect(HttpStatus.OK)
         .then((res) => {
-          expect(res.body.data.name).to.equal('KK')
+          expect(res.body.data.name).to.equal('TU')
           expect(res.body.data.email).to.equal(member.email)
           done()
         })
