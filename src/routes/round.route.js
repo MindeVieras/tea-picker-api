@@ -11,9 +11,6 @@ router.post('/picker', picker)
 /** GET /api/rounds - Get list of rounds */
 router.get('/', list)
 
-/** GET /api/rounds/:id - Get single round */
-router.get('/:id', get)
-
 /** DELETE /api/rounds/:id - Delete round */
 router.delete('/:id', remove)
 
