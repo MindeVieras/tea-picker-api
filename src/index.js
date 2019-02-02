@@ -1,13 +1,11 @@
 
 import mongoose from 'mongoose'
 import HttpStatus from 'http-status'
-import expressValidation from 'express-validation'
 
 import app from './config/express'
 import routes from './routes/index.route'
-import APIError from './helpers/APIError'
 
-const production = process.env.NODE_ENV === 'production';
+const production = process.env.NODE_ENV === 'production'
 const PORT = process.env.PORT || 3000
 const HOST = process.env.HOST || 'localhost'
 
@@ -58,14 +56,9 @@ app.use((err, req, res, next) => {
   res.send(body)
 })
 
-// module.parent check is required to support mocha watch
-// src: https://github.com/mochajs/mocha/issues/1912
-if (!module.parent) {
-  // Start HTTP server
-  app.listen(PORT, () => {
-    console.log(`Server running at http://${HOST}:${PORT}`)
-  })
-}
+// Start HTTP server
+app.listen(PORT, () => {
+  console.log(`Server running at http://${HOST}:${PORT}`)
+})
 
-
-module.exports = app
+export default app

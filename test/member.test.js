@@ -1,6 +1,6 @@
 
 import HttpStatus from 'http-status'
-import request from 'supertest-as-promised'
+import request from 'supertest'
 import chai from 'chai'
 
 import app from '../src/index'

@@ -1,9 +1,12 @@
 
 import express from 'express'
 
-import { list, get, remove } from '../controllers/round.controller'
+import { picker, list, get, remove } from '../controllers/round.controller'
 
 const router = express.Router()
+
+/** POST /api/rounds/picker - Send list of participants and get lucky member who makes tea */
+router.post('/picker', picker)
 
 /** GET /api/rounds - Get list of rounds */
 router.get('/', list)
