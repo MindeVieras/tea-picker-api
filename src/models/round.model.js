@@ -5,7 +5,7 @@ import mongoose from 'mongoose'
  * Round Schema
  */
 const RoundSchema = new mongoose.Schema({
-  maker: {
+  makerName: {
     type: String,
     required: true
   },

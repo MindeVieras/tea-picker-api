@@ -35,7 +35,7 @@ export function picker(req, res, next) {
     const randomMaker = participants[Math.floor(Math.random() * participants.length)]
 
     // Save round to database
-    const round = new Round({ maker: randomMaker, participants })
+    const round = new Round({ makerName: randomMaker, participants })
     round.save()
       .then(r => jsonResponse(res, round))
       .catch(e => next(e))

@@ -20,7 +20,7 @@ describe('## Round APIs', () => {
         .send(round)
         .expect(HttpStatus.OK)
         .then((res) => {
-          expect(res.body.data.maker).to.be.a('string')
+          expect(res.body.data.makerName).to.be.a('string')
           expect(res.body.data.participants).to.be.an('array')
           round = res.body.data
           done()
@@ -48,7 +48,7 @@ describe('## Round APIs', () => {
         .get(`/api/rounds/${round._id}`)
         .expect(HttpStatus.OK)
         .then((res) => {
-          expect(res.body.data.maker).to.equal(round.maker)
+          expect(res.body.data.makerName).to.equal(round.makerName)
           expect(res.body.data.participants).to.be.an('array')
           done()
         })
@@ -73,7 +73,7 @@ describe('## Round APIs', () => {
         .delete(`/api/rounds/${round._id}`)
         .expect(HttpStatus.OK)
         .then((res) => {
-          expect(res.body.data.maker).to.equal(round.maker)
+          expect(res.body.data.makerName).to.equal(round.makerName)
           expect(res.body.data.participants).to.be.an('array')
           done()
         })
