@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000
 const HOST = process.env.HOST || 'localhost'
 
 // connect to mongo db
-const mongoUri = process.env.MONGO_HOST
+const mongoUri = process.env.MONGODB_URI
 mongoose.connect(mongoUri, { useNewUrlParser: true })
 mongoose.connection.on('error', () => {
   console.error('Could not connect to database')
