@@ -98,12 +98,12 @@ export function update(req, res, next) {
       ...req.body,
       name_lc: req.body.name.toLowerCase()
     }
-
+    
     // Check if user with the same name exists - lowercase
     Member.findOne({name_lc: memberData.name_lc})
       .then(member => {
         
-        if (member)
+        if (member && id != member._id)
           throw new APIError({ name: 'Member name already taken' })
         
         return Member.findByIdAndUpdate(id, {$set: memberData}, { new: true })
