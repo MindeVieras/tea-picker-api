@@ -8,7 +8,8 @@
     "dev": "nodemon -w src --exec \"babel-node src\"",
     "build": "rimraf dist && npx babel src -D -d dist --no-comments",
     "clean": "rimraf dist node_modules",
-    "test": "mocha --require @babel/register"
+    "test": "mocha --require @babel/register",
+    "lint": "eslint src"
   },
   "engines": {
     "node": ">=8.0.0 <11.0.0"
