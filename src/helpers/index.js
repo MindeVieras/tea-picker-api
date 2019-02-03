@@ -1,3 +1,3 @@
 
 export * from './response'
-export * from './utils'
+export { default as APIError } from './APIError'

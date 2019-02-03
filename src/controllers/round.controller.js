@@ -3,13 +3,12 @@ import HttpStatus from 'http-status'
 
 import Round from '../models/round.model'
 
-import { jsonResponse } from '../helpers'
-import APIError from '../helpers/APIError'
+import { jsonResponse, APIError } from '../helpers'
 
 /**
  * Get tea maker.
  * @property {Array} req.body.participants - List of participants.
- * @returns {RoundPicker}
+ * @returns {Round}
  */
 export function picker(req, res, next) {
 

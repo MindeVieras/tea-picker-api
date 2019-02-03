@@ -27,7 +27,7 @@ class APIError extends ErrorWrapper {
   constructor(message, status = HttpStatus.INTERNAL_SERVER_ERROR) {
     super(message, status)
 
-    // if first paramater object - set input errors
+    // if first paramater object - set as input errors
     if (typeof message === 'object') {
       this.message = 'Input error'
       this.status = HttpStatus.UNPROCESSABLE_ENTITY
@@ -36,4 +36,4 @@ class APIError extends ErrorWrapper {
   }
 }
 
-module.exports = APIError
+export default APIError

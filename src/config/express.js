@@ -15,13 +15,8 @@ app.use(morgan('dev'))
 // CORS
 app.use(cors())
 
-// Body parser
-app.use(bodyParser.urlencoded({
-  extended: true,
-  limit: '50mb'
-}))
-app.use(bodyParser.json({
-  limit : '50mb'
-}))
+// Parse body params and add to req.body
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 export default app

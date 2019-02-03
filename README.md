@@ -1,29 +1,57 @@
-# Aws album api using Node.js, Express, Passport and MySql.
+# The Tea Round Picker API
 
-This is a aws album app using Node.js, Express, Passport and MySql.
+RESTful API service to randomly pick tea maker for the round. Store and manage members and rounds.
+
+This project is build using NodeJS, Express and Mongoose with ES6. The purpose of the API is to allow front-end applications make HTTP calls and do CRUD actions. So this is independent service allows you to use any client.
 
 
-To get started, first install all the necessary dependencies.
-```
-> npm install
-```
+## Getting Started
 
-Start the development server
+### Prerequisites
+Since Babel 7 is in use to compile ES6 code, Node 8.x or later version is required. To check your Node version run:
 ```
-> npm run dev
-```
-
-Build production version
-```
-> npm run build
+node -v
 ```
 
-Run test
+MongoDB is required to store all project data.
 ```
-> npm t
+mongod --version
 ```
 
-Build documentation
+### Installation
+Clone the repo:
 ```
-> apidoc -i src -o apidoc
+git clone git@github.com:MindeVieras/tea-picker-api.git
+```
+
+Install dependencies:
+```
+npm install
+```
+
+Create .env file and set environmental variables:
+```
+cp .env.sample .env
+```
+
+### Start Server
+Production
+```
+npm start
+```
+
+Development
+```
+npm run dev
+```
+
+### Testing
+Testing is done by using Mocha + Chai. This is great combination when it comes to asynchronous code testing. To run test:
+```
+npm test
+```
+
+### Linting
+```
+npm run lint
 ```

@@ -3,8 +3,7 @@ import HttpStatus from 'http-status'
 import validator from 'validator'
 
 import Member from '../models/member.model'
-import { jsonResponse } from '../helpers'
-import APIError from '../helpers/APIError'
+import { jsonResponse, APIError } from '../helpers'
 
 /**
  * Get member list.
@@ -27,27 +26,16 @@ export function list(req, res, next) {
  */
 export function create(req, res, next) {
   
-  const { name, email } = req.body
-  let errors
-
-  // validate member name input
-  if (!name || validator.isEmpty(name))
-    errors = { ...errors, name: `Member name is required` }
-
-  // vlaidate email
-  if (email && !validator.isEmail(email))
-    errors = { ...errors, email: `Email must be valid` }
+  let errors = validateErrors(req.body)
   
   // return errors if any
-  if (errors)
-    throw new APIError(errors)
+  if (errors) throw new APIError(errors)
 
   else {
-    // to be sent to db
+    // to be saved to db
     let memberData = {
-      name,
-      name_lc: name.toLowerCase(),
-      email
+      ...req.body,
+      name_lc: req.body.name.toLowerCase()
     }
 
     const memberClass = new Member(memberData)
@@ -55,10 +43,9 @@ export function create(req, res, next) {
     // Check if user with the same name exists - lowercase
     Member.findOne({name_lc: memberData.name_lc})
       .then(member => {
-        
-        if (member) {
+
+        if (member)
           throw new APIError({ name: 'Member name already taken' })
-        }
         
         return memberClass.save()
       })
@@ -79,17 +66,13 @@ export function get(req, res, next) {
 
   Member.findById(id)
     .then(member => {
-      if (!member) {
+      if (!member)
         throw new APIError('Member not found', HttpStatus.NOT_FOUND)
-      }
-      else {
+      else
         jsonResponse(res, member)
-      }
+
     })
-    .catch(e => {
-      const err = new APIError('Member not found', HttpStatus.NOT_FOUND)
-      return next(err)
-    })
+    .catch(e => next(e))
 
 }
 
@@ -104,9 +87,30 @@ export function update(req, res, next) {
   
   const { id } = req.params
 
-  Member.findByIdAndUpdate(id, {$set: req.body}, { new: true })
-    .then(member => jsonResponse(res, member))
-    .catch(e => next(e))
+  let errors = validateErrors(req.body)
+  
+  // return errors if any
+  if (errors) throw new APIError(errors)
+
+  else {
+    // to be saved to db
+    let memberData = {
+      ...req.body,
+      name_lc: req.body.name.toLowerCase()
+    }
+
+    // Check if user with the same name exists - lowercase
+    Member.findOne({name_lc: memberData.name_lc})
+      .then(member => {
+        
+        if (member)
+          throw new APIError({ name: 'Member name already taken' })
+        
+        return Member.findByIdAndUpdate(id, {$set: memberData}, { new: true })
+      })
+      .then(member => jsonResponse(res, member))
+      .catch(e => next(e))
+  }
 
 }
 
@@ -122,5 +126,22 @@ export function remove(req, res, next) {
   Member.findByIdAndRemove(id)
     .then(member => jsonResponse(res, member))
     .catch(e => next(e))
+
+}
+
+function validateErrors(values) {
+
+  const { name, email } = values
+  let errors
+
+  // validate member name input
+  if (!name || validator.isEmpty(name))
+    errors = { ...errors, name: `Member name is required` }
+
+  // vlaidate email
+  if (email && !validator.isEmail(email))
+    errors = { ...errors, email: `Email must be valid` }
+  
+  return errors
 
 }
