@@ -49,10 +49,6 @@ Development
 ```
 npm run dev
 ```
-Once its running can be accessed:
-```
-http://localhost:3000
-```
 
 ### Testing
 Testing is done by using Mocha + Chai. This is great combination when it comes to asynchronous code testing. To run test:
@@ -81,7 +77,7 @@ Examples of how general JSON response model looks.
     "status": 200,
     "message": "OK",
     "data": {
-	"_id": "5c55e4cdad2e7e52c05b36ad",
+		"_id": "5c55e4cdad2e7e52c05b36ad",
         "name": "Joe Go",
         "name_lc": "joe go",
         "email": "jg@test.com",
@@ -91,16 +87,6 @@ Examples of how general JSON response model looks.
 ```
 
 ### Error Response
-
-**Code** : `500 Internal server error`
-**Content example** : Server error:
-```json
-{
-    "status": 500,
-    "message": "Internal server error",
-    "stack": "stacktrace only in development mode"
-}
-```
 
 **Code** : `404 Not found`
 **Content example** : API not found error:
@@ -120,8 +106,16 @@ Examples of how general JSON response model looks.
     "errors": {
         "name": "Member name is required",
         "email": "Email must be valid"
-    },
-    "stack": "stacktrace only in development mode"
+    }
+}
+```
+
+**Code** : `500 Internal server error`
+**Content example** : Server error:
+```json
+{
+    "status": 500,
+    "message": "Internal server error"
 }
 ```
 
@@ -131,7 +125,7 @@ Examples of how general JSON response model looks.
 
 Get list of members.
 
-**URL** : `/api/memebrs`
+**URL** : `/api/members`
 
 **Method** : `GET`
 
@@ -140,7 +134,7 @@ Get list of members.
 
 **Code** : `200 OK`
 
-**Content example** : In this example, the API returns array of members :
+**Content example** : In this example, the API returns array of members:
 
 ```json
 {
@@ -167,13 +161,13 @@ Get list of members.
 
 ## Create member
 
-Create new member if member name does not already exist. Each member can also have optional email to be saved.
+Create new member if member name does not already exist. Each member can also have optional email.
 
 **URL** : `/api/members`
 
 **Method** : `POST`
 
-**Data example** Name field is required and must by not in use. Email field is optional and must be valid email format.
+**Data example**: Name field is required and must be not in use. Email field is optional:
 
 ```json
 {
@@ -186,7 +180,7 @@ Create new member if member name does not already exist. Each member can also ha
 
 **Code** : `201 CREATED`
 
-**Content example**
+**Content example**:
 
 ```json
 {
@@ -210,17 +204,17 @@ Create new member if member name does not already exist. Each member can also ha
 
 ## Update member
 
-Update member details name and email.
+Update member details - name and email.
 
-**URL** : `/api/accounts/:id`
+**URL** : `/api/members/:id`
 
 **Method** : `PUT`
 
-**Data example** Name field is required and must by not in use. Email field is optional and must be valid email format.
+**Data example** : Name field is required and must be not in use. Email field is optional:
 
 ```json
 {
-    "name": "Test Member"
+    "name": "Test Member",
     "email": "example@example.com"
 }
 ```
@@ -229,7 +223,7 @@ Update member details name and email.
 
 **Code** : `200 OK`
 
-**Content example**
+**Content example**:
 
 ```json
 {
