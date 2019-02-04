@@ -77,11 +77,11 @@ Examples of how general JSON response model looks.
     "status": 200,
     "message": "OK",
     "data": {
-		"_id": "5c55e4cdad2e7e52c05b36ad", // Member ID
-        "name": "Joe Go", // Member name
-        "name_lc": "joe go", // Member name in lowercase
-        "email": "jg@test.com", // Memeber email
-        "createdAt": "2019-02-02T18:43:25.929Z" // Memeber creation ISO date
+	"_id": "5c55e4cdad2e7e52c05b36ad",
+        "name": "Joe Go",
+        "name_lc": "joe go",
+        "email": "jg@test.com",
+        "createdAt": "2019-02-02T18:43:25.929Z"
 	}
 }
 ```
@@ -94,7 +94,7 @@ Examples of how general JSON response model looks.
 {
     "status": 500,
     "message": "Internal server error",
-    "stack": // stacktrace only in development mode
+    "stack": "stacktrace only in development mode"
 }
 ```
 
@@ -117,7 +117,7 @@ Examples of how general JSON response model looks.
         "name": "Member name is required",
         "email": "Email must be valid"
     },
-    "stack": // stacktrace only in development mode
+    "stack": "stacktrace only in development mode"
 }
 ```
 
@@ -156,8 +156,7 @@ Get list of members.
             "name_lc": "john e",
             "email": "",
             "createdAt": "2019-02-02T15:57:15.111Z"
-        },
-        ...
+        }
     ]
 }
 ```
@@ -175,7 +174,7 @@ Create new member if member name does not already exist. Each member can also ha
 ```json
 {
     "name": "Test Member"
-    "email": "example@example.com" // optional
+    "email": "example@example.com"
 }
 ```
 
@@ -271,7 +270,7 @@ mongo.
         "_id": "5c57787772057e2dbf77b48d",
         "name": "Test Member",
         "email": "example@example.com",
-        "name_lc": "sadfd asdf",
+        "name_lc": "test member",
         "createdAt": "2019-02-01T20:25:43.695Z"
     }
 }
@@ -308,7 +307,7 @@ mongo.
         "_id": "5c57787772057e2dbf77b48d",
         "name": "Test Member",
         "email": "example@example.com",
-        "name_lc": "sadfd asdf",
+        "name_lc": "test member",
         "createdAt": "2019-02-01T20:25:43.695Z"
     }
 }
@@ -335,7 +334,7 @@ Get random tea maker.
 
 ```json
 {
-    "participants": ['Test member', 'Name Example']
+    "participants": ["Test member", "Name Example"]
 }
 ```
   
@@ -407,8 +406,7 @@ Get list of rounds.
                 "Minde Vieras"
             ],
             "createdAt": "2019-02-02T18:26:02.513Z"
-        },
-        ...
+        }
     ]
 }
 ```
