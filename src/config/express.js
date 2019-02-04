@@ -15,7 +15,7 @@ app.use(morgan('dev'))
 // CORS
 app.use(cors())
 
-// Parse body params and add to req.body
+// Parse body params and add to req.body as JSON
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 

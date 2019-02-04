@@ -26,7 +26,7 @@ app.use((err, req, res, next) => {
   
   if (status < 400) status = 500
   
-  // Set staus code for response
+  // Set staus code to app response
   res.statusCode = status
 
   let body = {
@@ -48,12 +48,25 @@ app.use((err, req, res, next) => {
   // client errors
   body.message = err.message
   body.errors = err.errors
-
-  if (err.code) body.code = err.code
-  if (err.name) body.name = err.name
-  if (err.type) body.type = err.type
   
   res.send(body)
+
+})
+
+// Handle 404 errors
+app.use((req, res, next) => {
+
+  const status = HttpStatus.NOT_FOUND
+
+  // Set staus code to app response
+  res.statusCode = status
+
+  const body = {
+    status,
+    message: 'API not found'  
+  }
+  res.send(body)
+  return
 })
 
 // Start HTTP server
