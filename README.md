@@ -49,6 +49,10 @@ Development
 ```
 npm run dev
 ```
+Once its running can be accessed:
+```
+http://localhost:3000
+```
 
 ### Testing
 Testing is done by using Mocha + Chai. This is great combination when it comes to asynchronous code testing. To run test:
