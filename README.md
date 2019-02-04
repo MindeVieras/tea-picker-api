@@ -18,36 +18,43 @@ Key aspects of the API are:
 
 ### Prerequisites
 Since Babel 7 is in use to compile ES6 code, Node 8.x or later version is required. To check your Node version run:
-```
+```sh
 node -v
 ```
 MongoDB is required to store all project data.
-```
+```sh
 mongod --version
 ```
 
 ### Installation
 Clone the repo:
-```
+```sh
 git clone git@github.com:MindeVieras/tea-picker-api.git
 ```
 Install dependencies:
-```
+```sh
 npm install
 ```
 Create .env file and set environmental variables:
-```
+```sh
 cp .env.sample .env
 ```
 
 ### Start Server
-Production
-```
+
+**Production**
+```sh
 npm start
 ```
-Development
-```
+**Development**
+```sh
 npm run dev
+```
+**Note**: When starting locally - server should be running on http://localhost:3000 unless you set different host or port in .env file.
+
+### Build production
+```sh
+npm run build
 ```
 
 ### Testing
