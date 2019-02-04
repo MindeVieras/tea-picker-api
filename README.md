@@ -173,7 +173,7 @@ Create new member if member name does not already exist. Each member can also ha
 
 ```json
 {
-    "name": "Test Member"
+    "name": "Test Member",
     "email": "example@example.com"
 }
 ```
@@ -217,7 +217,7 @@ Update member details name and email.
 ```json
 {
     "name": "Test Member"
-    "email": "example@example.com" // optional
+    "email": "example@example.com"
 }
 ```
 
